@@ -3,10 +3,9 @@ import React, { useEffect, useState } from 'react'
 import Comments from './Comments';
 
 function PostDetails({ postId, onDelete }) {
-    const BASE_URL = "http://localhost:8080/api/v1";
     const [post, setPost] = useState(null)
     useEffect(() => {
-      axios.get(`${BASE_URL}/posts/${postId}`)
+      axios.get("http://localhost:8080/api/v1/posts/{postId}")
         .then(res => setPost(res.data))
         .catch(err => console.log(err))
     }, [postId])
@@ -22,9 +21,8 @@ function PostDetails({ postId, onDelete }) {
             <button className="mr-3 text-cyan-600">Edit</button>
             <button onClick={() => onDelete(post.id)} className="rounded-md px-2 py-1 text-red-600 hover:bg-red-100">Delete</button>
         </div>
-    </div>
+        </div>
     )
-
 }
 
 export default PostDetails

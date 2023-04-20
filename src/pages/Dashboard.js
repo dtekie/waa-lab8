@@ -5,14 +5,13 @@ import axios from 'axios';
 import AddPost from '../components/AddPost';
 
 function Dashboard() {
-  const BASE_URL = "http://localhost:8080/api/v1"
   const [selectedPost, setSelectedPost] = useState(null);
   const [name, setName] = useState("");
   const [posts, setPosts] = useState([]);
-  const [addFlag, setAddFlag] = useState(true);
+  const [flag, setflag] = useState(true);
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/posts`).then(
+    axios.get("http://localhost:8080/api/v1/posts").then(
       res => {
         setPosts(res.data)
       }).catch(
@@ -20,7 +19,7 @@ function Dashboard() {
           console.log(err)
         }
       )
-  }, [addFlag])
+  }, [flag])
 
 
   const onChangeHandler = (e) => {
@@ -36,18 +35,18 @@ function Dashboard() {
   }
 
   const onDeleteHandler = (id) => {
-    axios.delete(`${BASE_URL}/posts/${id}`)
+    axios.delete("http://localhost:8080/api/v1/posts/${id}")
       .then(res => {
-        const updated = posts.filter(post => post.id !== id)
-        setPosts(updated);
+        const remainingPosts = posts.filter(post => post.id !== id)
+        setPosts(remainingPosts);
         setSelectedPost(null);
       })
       .catch(err => console.log(err))
   }
 
   const onAddPost = (data) => {
-    axios.post(`${BASE_URL}/posts`, data)
-      .then(res => setAddFlag(!addFlag))
+    axios.post("http://localhost:8080/api/v1/posts", data)
+      .then(res => setflag(!flag))
       .catch(err => console.log(err))
   }
 
